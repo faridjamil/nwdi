@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+    <html>
+        <head>
+            <title>Aplikasi Perpesanan NWDI</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                }
+
+                .container {
+                    max-width: 600px;
+                    margin: 20px auto;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                    padding: 10px;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                }
+
+                .message {
+                    background-color: #f1f1f1;
+                    padding: 10px;
+                    margin-bottom: 10px;
+                    border-radius: 5px;
+                }
+
+                .message .sender {
+                    font-weight: bold;
+                    color: #555;
+                }
+
+                .message .timestamp {
+                    font-size: 0.8em;
+                    color: #888;
+                }
+
+                .input-container {
+                    display: flex;
+                    margin-top: 10px;
+                }
+
+                .input-container input[type="text"] {
+                    flex: 1;
+                    padding: 5px;
+                    border: 1px solid #ccc;
+                    border-radius: 3px;
+                }
+
+                .input-container .tombol {
+                    padding: 5px 10px;
+                    background-color: #4CAF50;
+                    color: #fff;
+                    border: none;
+                    border-radius: 3px;
+                    cursor: pointer;
+                }
+            </style>
+        </head>
+
+        <body>
+            <div class="container">
+                <center>
+                    <img src="index.jpg" width="100">
+                    <h3>Aplikasi Perpesanan NWDI</h3>
+                    <p><a href="../Hizib NW Lite/index.html" style="text-decoration: none">Hizib NW Lite</a></p>
+                </center>
+                <!-- Menampilkan pesan-pesan lainnya di sini -->
+            </div>
+            <div class="container">
+                <div class="input-container">
+                    <input type="text" id="message-input" placeholder="Ketik pesan...">
+                    <!-- Tambahkan tombol untuk hapus dan unduh pesan -->
+                    <button class="tombol" onclick="deleteMessages()">Hapus</button>
+                    <button class="tombol" onclick="downloadMessages()">Unduh</button>
+                    <input class="tombol" type="submit" value="Kirim" onclick="sendMessage()">
+                </div>
+            </div>
+
+            <script>
+                function sendMessage() {
+                    var messageInput = document.getElementById("message-input");
+                    var messageText = messageInput.value;
+
+                    // Kirim pesan ke server atau lakukan tindakan lain sesuai kebutuhan
+
+                    // Tambahkan pesan yang dikirim ke tampilan
+                    var messageContainer = document.createElement("div");
+                    messageContainer.classList.add("message");
+
+                    var sender = document.createElement("span");
+                    sender.classList.add("sender");
+                    sender.innerText = "You:";
+
+                    var timestamp = document.createElement("span");
+                    timestamp.classList.add("timestamp");
+                    var currentDate = new Date();
+                    timestamp.innerText = currentDate.toLocaleString();
+
+                    var messageContent = document.createElement("p");
+                    messageContent.innerText = messageText;
+
+                    messageContainer.appendChild(sender);
+                    messageContainer.appendChild(timestamp);
+                    messageContainer.appendChild(messageContent);
+
+                    var container = document.querySelector(".container");
+                    container.insertBefore(messageContainer, container.lastChild);
+
+                    // Kosongkan input pesan setelah mengirim
+                    messageInput.value = "";
+                }
+
+                document.getElementById("message-input").addEventListener("keypress", function(event) {
+                    if (event.key === "Enter") {
+                        sendMessage();
+                    }
+                });
+
+                function sendMessage() {
+                    var messageInput = document.getElementById("message-input");
+                    var messageText = messageInput.value;
+
+                    if (messageText.trim() === "") return; // Cegah pengiriman pesan kosong
+
+                    // Tambahkan pesan yang dikirim ke tampilan
+                    var messageContainer = document.createElement("div");
+                    messageContainer.classList.add("message");
+
+                    var sender = document.createElement("span");
+                    sender.classList.add("sender");
+                    sender.innerText = "You:";
+
+                    var timestamp = document.createElement("span");
+                    timestamp.classList.add("timestamp");
+                    var currentDate = new Date();
+                    timestamp.innerText = currentDate.toLocaleString();
+
+                    var messageContent = document.createElement("p");
+                    messageContent.innerText = messageText;
+
+                    messageContainer.appendChild(sender);
+                    messageContainer.appendChild(timestamp);
+                    messageContainer.appendChild(messageContent);
+
+                    var container = document.querySelector(".container");
+                    container.insertBefore(messageContainer, container.lastChild);
+
+                    // Kosongkan input pesan setelah mengirim
+                    messageInput.value = "";
+                }
+
+                let savedMessages = [];
+
+                document.getElementById("message-input").addEventListener("keypress", function(event) {
+                    if (event.key === "Enter") {
+                        sendMessage();
+                    }
+                });
+
+                function sendMessage() {
+                    var messageInput = document.getElementById("message-input");
+                    var messageText = messageInput.value;
+
+                    if (messageText.trim() === "") return; // Cegah pengiriman pesan kosong
+
+                    var currentDate = new Date();
+                    var messageData = {
+                        sender: "You",
+                        timestamp: currentDate.toLocaleString(),
+                        content: messageText
+                    };
+
+                    // Simpan pesan ke array
+                    savedMessages.push(messageData);
+
+                    // Tambahkan pesan ke tampilan
+                    var messageContainer = document.createElement("div");
+                    messageContainer.classList.add("message");
+
+                    var sender = document.createElement("span");
+                    sender.classList.add("sender");
+                    sender.innerText = messageData.sender + ":";
+
+                    var timestamp = document.createElement("span");
+                    timestamp.classList.add("timestamp");
+                    timestamp.innerText = messageData.timestamp;
+
+                    var messageContent = document.createElement("p");
+                    messageContent.innerText = messageData.content;
+
+                    messageContainer.appendChild(sender);
+                    messageContainer.appendChild(timestamp);
+                    messageContainer.appendChild(messageContent);
+
+                    var container = document.querySelector(".container");
+                    container.insertBefore(messageContainer, container.lastChild);
+
+                    // Kosongkan input setelah mengirim
+                    messageInput.value = "";
+                }
+
+                function deleteMessages() {
+                    savedMessages = []; // Hapus semua pesan yang tersimpan
+
+                    var container = document.querySelector(".container");
+                    var messageElements = container.querySelectorAll(".message");
+
+                    messageElements.forEach(element => element.remove()); // Hapus tampilan pesan
+                }
+
+                function downloadMessages() {
+                    if (savedMessages.length === 0) {
+                        alert("Tidak ada pesan untuk diunduh.");
+                        return;
+                    }
+
+                    let textContent = savedMessages.map(msg => `${msg.sender} (${msg.timestamp}): ${msg.content}`).join("\n");
+
+                    var blob = new Blob([textContent], { type: "text/plain" });
+                    var a = document.createElement("a");
+                    a.href = URL.createObjectURL(blob);
+                    a.download = "pesan_tersimpan.txt";
+                    a.click();
+                }
+            </script>
+        </body>
+    </html>
