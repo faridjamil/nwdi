@@ -1,0 +1,504 @@
+<html>
+<head>
+<style>
+:root {
+    /* Light Mode Colors */
+    --bg-color: #f4f7f6;
+    --card-bg: #ffffff;
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --header-grad: linear-gradient(135deg, #1b5e20, #4caf50);
+    --nav-bg: #ffffff;
+    --border-color: #eeeeee;
+}
+
+[data-theme="dark"] {
+    /* Dark Mode Colors (Deep Green & Charcoal) */
+    --bg-color: #121212;
+    --card-bg: #1e1e1e;
+    --text-primary: #e0e0e0;
+    --text-secondary: #b0b0b0;
+    --header-grad: linear-gradient(135deg, #0a2b0d, #1b5e20);
+    --nav-bg: #1e1e1e;
+    --border-color: #333333;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+}
+
+.app-header { background: var(--header-grad); }
+
+.menu-item, .modal-overlay, .bottom-nav, .list-item {
+    background: var(--card-bg);
+    color: var(--text-primary);
+}
+
+.menu-section h3, .list-info h4 { color: var(--text-primary); }
+.menu-item p, .list-info p { color: var(--text-secondary); }
+.bottom-nav { border-top: 1px solid var(--border-color); }
+.list-item { border-bottom: 1px solid var(--border-color); }
+
+/* Tombol Toggle Floating */
+.dark-mode-toggle {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    background: #4caf50;
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    cursor: pointer;
+    z-index: 999;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f4f7f6;
+    padding-bottom: 80px;
+}
+
+.app-header {
+    background: linear-gradient(135deg, #1b5e20, #4caf50);
+    color: white;
+    padding: 25px 20px;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+}
+
+.profile-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.fp {
+      border-radius: 50%;
+}
+  
+.welcome-text{
+	text-align: right;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    border: none;
+    outline: none;
+}
+
+.menu-section {
+    padding: 20px;
+}
+
+.menu-section h3 {
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 1.1rem;
+}
+
+.grid-menu {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.menu-item {
+    background: white;
+    padding: 20px 10px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    transition: transform 0.2s;
+}
+
+.menu-item:active {
+    transform: scale(0.95);
+}
+
+.menu-item span {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.menu-item p {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #555;
+}
+
+/* Highlight section for NWDI specific content */
+.highlight .menu-item {
+    background: #e8f5e9;
+    border: 1px solid #c8e6c9;
+}
+
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: white;
+    display: flex;
+    justify-content: space-around;
+    padding: 12px 0;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+}
+
+.nav-btn {
+    text-align: center;
+    font-size: 0.7rem;
+    color: #888;
+}
+
+.nav-btn.active {
+    color: #2e7d32;
+    font-weight: bold;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: white;
+    z-index: 1000;
+    display: none; /* Sembunyikan dulu */
+    overflow-y: auto;
+}
+
+.modal-header {
+    padding: 20px;
+    background: #1b5e20;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.modal-header button {
+    background: none; border: 1px solid white;
+    color: white; padding: 5px 12px; border-radius: 8px;
+}
+
+.modal-body { padding: 20px; }
+
+/* Styling List Lagu & Hizib */
+.list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    background: #fff;
+    margin-bottom: 5px;
+    border-radius: 10px;
+}
+
+.list-info h4 { margin: 0; color: #2e7d32; }
+.list-info p { margin: 0; font-size: 0.8rem; color: #777; }
+
+.play-btn { font-size: 1.5rem; cursor: pointer; color: #4caf50; }
+
+/* Tampilan Teks Hizib/Wasiat */
+.arabic-text {
+    font-family: 'Amiri', serif; /* Font arab populer */
+    font-size: 1.8rem;
+    direction: rtl;
+    text-align: right;
+    line-height: 2.5;
+    margin-bottom: 20px;
+}
+        .widget-container {
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+            border-top: 8px solid white;
+            background: white;
+            width: 320px;
+        }
+
+        .jam {
+            font-size: 3rem;
+            font-weight: bold;
+            color: black;
+            margin-bottom: 0.5rem;
+            letter-spacing: -1px;
+        }
+
+        .masehi {
+            font-size: 1rem;
+            color: black;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .hijriyah {
+            font-size: 1.1rem;
+            color: #d35400; /* Warna kontras untuk pembeda */
+            font-weight: 500;
+            background: var(--bg-color);
+            padding: 5px 15px;
+            border-radius: 50px;
+            display: inline-block;
+        }
+
+        .lokasi {
+            margin-top: 15px;
+            font-size: 0.8rem;
+            color: black;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+  </style>
+<link rel="me" href="https://www.blogger.com/profile/05620338097998060034" />
+<meta name='google-adsense-platform-account' content='ca-host-pub-1556223355139109'/>
+<meta name='google-adsense-platform-domain' content='blogspot.com'/>
+</head>
+<body>
+
+<html lang="id">
+<head>
+    <meta charset="UTF-8"></meta>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"></meta>
+    <title>NWDI Super App</title>
+    <script crossorigin="anonymous" src="https://kit.fontawesome.com/your-code.js"></script> </head>
+<body>
+    <header class="app-header">
+        <div class="profile-section">
+            
+              <img height="50" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjoYk9uQDU7VYbCmKv7pywzhOXW4NeglNMTV9u3wfrOtMxSZ3x6zicw-HkdVYeuy7e6nDkh4pt1Yo7-SnZ5sKFG2VQBaKj5bgmhYNhR91m59hcxNiwdeILE-H7dSgPqhilTlRlRx_bg7WUKJw8jr37m8Elct8C_Okld3wvhx9icSjo3FVfWKQlH9as8-glE/s16000/-5172610551631252234_121.jpg" class="fp" width="50" />
+            <div class="welcome-text">
+                <center><p>Assalamu'alaikum,</p>
+                  <h2 id="user-greeting">Farid Jamil 🟢</h2></center>
+            </div>
+            <div class="logo-nwdi">
+              <img height="50" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjNiV24U3MSv_S31jYG7l1I2R6AvXdViAa7W9IFutmerJb_ic26oFvGWaFzd1x64eShjNsVZ07y4kTDLe9zyIPhpgNE8TP_p2mSw6HHyh3ZkTKdos4Ik6W6-5W4gPJ2mLJ_HguA1FLkM0jHrU2w6IaPSnNGZrmKr30GA6WFeo4Vh62R_vAtL__79xxaBWc/s320/Gambar_NWDI.jpg" width="50" />
+            </div>
+        </div>
+        <div class="search-bar">
+            <input placeholder="Cari fitur atau doa..." type="text" />
+        </div>
+    </header>
+
+    <main class="menu-container">
+       <div class="modal-overlay" id="feature-modal">
+    <div class="modal-content">
+        <header class="modal-header">
+            <button onclick="closeModal()">✕ Close</button>
+            <h2 id="modal-title">Fitur</h2>
+        </header>
+        <div class="modal-body" id="modal-body">
+            </div>
+        </div>
+     </div>
+        <section class="menu-section">
+          <center>
+               <div class="widget-container" style="margin-top: -35px;">
+                  <div id="display-jam" class="jam">00:00:00</div>
+                  <div id="display-masehi" class="masehi">Memuat Tanggal...</div>
+                  <div id="display-hijriyah" class="hijriyah">Memuat Hijriyah...</div>
+                  <div class="lokasi">📍 Aikmel, Lombok Timur (WITA)</div>
+              </div>
+          </center>
+          <br>
+            <h3>Ibadah &amp; Al-Qur'an</h3>
+            <div class="grid-menu">
+                <div class="menu-item" onclick="openFeature('Al-Qur\'an')"><span>📖</span><p>Al-Qur'an</p></div>
+                <div class="menu-item" onclick="openFeature('Doa')"><span>🙏</span><p>Doa</p></div>
+                <div class="menu-item" onclick="openFeature('Jadwal Ibadah & Imsakiyah')"><span>⏳</span><p>Ibadah & Imsakiyah</p></div>
+                <div class="menu-item" onclick="openFeature('Ibadah')"><span>🕌</span><p>Ibadah</p></div>
+                <div class="menu-item" onclick="openFeature('Niat')"><span>📝</span><p>Niat</p></div>
+                <div class="menu-item" onclick="openFeature('Dasar Islam')"><span>📜</span><p>Dasar Islam</p></div>
+            </div>
+        </section>
+
+        <section class="menu-section">
+            <h3>Khidmat NWDI</h3>
+            <div class="grid-menu highlight">
+                <div class="menu-item" onclick="openFeature('Hizib')"><span>✨</span><p>Hizib</p></div>
+                <div class="menu-item" onclick="openFeature('Pengantar Hizib')"><span>📖</span><p>Pengantar</p></div>
+                <div class="menu-item" onclick="openFeature('Wasiat')"><span>✍️</span><p>Wasiat</p></div>
+                <div class="menu-item" onclick="openFeature('Barjanji')"><span>📗</span><p>Barjanji</p></div>
+                <div class="menu-item" onclick="openFeature('Lagu Perjuangan')"><span>🎵</span><p>Lagu</p></div>
+                <div class="menu-item" onclick="openFeature('Video Pengajian')"><span>📹</span><p>Video</p></div>
+            </div>
+        </section>
+    </main>
+
+    <nav class="bottom-nav">
+        <div class="nav-btn active">🏠<p>Home</p></div>
+        <div class="nav-btn">📅<p>Jadwal</p></div>
+        <div class="nav-btn">📰<p>Berita</p></div>
+        <div class="nav-btn">👤<p>Profil</p></div>
+    </nav>
+
+    <div class="dark-mode-toggle" onclick="toggleDarkMode()">
+       <span id="theme-icon">🌙</span>
+    </div>
+
+</body>
+</html>
+<script>function openFeature(featureName) {
+    alert("Membuka fitur: " + featureName + "\nFitur ini sedang dikembangkan untuk versi lengkap.");
+    
+    // Logika navigasi bisa ditaruh di sini
+    // Contoh: window.location.href = featureName.toLowerCase() + ".html";
+}
+
+// Efek sederhana saat scroll
+window.onscroll = function() {
+    const header = document.querySelector('.app-header');
+    if (window.scrollY > 50) {
+        header.style.padding = "15px 20px";
+    } else {
+        header.style.padding = "25px 20px";
+    }
+};
+
+const modal = document.getElementById('feature-modal');
+const modalTitle = document.getElementById('modal-title');
+const modalBody = document.getElementById('modal-body');
+  
+function openFeature(name) {
+    modal.style.display = 'block';
+    modalTitle.innerText = name;
+    
+    if (name === 'Lagu Perjuangan') {
+        renderLagu();
+    } else if (name === 'Hizib') {
+        renderHizib();
+    } else if (name === 'Jadwal Ibadah & Imsakiyah') {
+        // Ganti link di bawah dengan link Google Drive PDF Imsakiyah Aikmel kamu
+        const linkPDF = "https://drive.google.com/file/d/1p5R2eRnSZWVAVVDRmuub7LD-Wth5ABtz/view?usp=sharing"; 
+        
+        modalBody.innerHTML = `
+            <div style="text-align:center; padding:20px;">
+                <div style="font-size:3.5rem; margin-bottom:10px;">📅</div>
+                <h3 style="color:#1b5e20;">Jadwal Ramadan 1447 H</h3>
+                <p style="color:#666; font-size:0.9rem;">Wilayah Aikmel, Lombok Timur (WITA)</p>
+                <br>
+                <p style="color:#666; font-size:0.9rem;"><b>Jadwal versi Foto</b></p>
+                <p style="color:#666; font-size:0.9rem;">Catatan : tunggu sebentar jika ingin melinat versi fotonya.</p>
+                <br>
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiKqzxj76CzGUr8XZqDVx2ZP3Ku4htrpuRtUfqmVEob7EMtY0yRFEA2J848EDN7kGs22_2n1Ai3rp6T0X0WC6-HFOKClY52-HHQiRuLgq7r-HOkLhZCFKVHCvABO8GleJ07Wv8pz6pZqM-WlukY0kQ_pxya694T5WoJchWW07U7MRzRf0z472clafT714I/s16000/LOMBOK%20TIMUR%20-%20JADWAL%20IMSAKIYAH.jpg" width="100%" style="border-radius:10px;"/>
+                
+                <div style="margin:25px 0;">
+                    <a href="${linkPDF}" target="_blank" style="display:block; background:#1b5e20; color:white; text-decoration:none; padding:15px; border-radius:12px; font-weight:bold; box-shadow:0 4px 10px rgba(0,0,0,0.1);">
+                        📂 Buka Jadwal PDF
+                    </a>
+                </div>
+                
+                <p style="font-size:0.8rem; color:#888; font-style:italic;">
+                    *Klik tombol di atas untuk melihat atau mengunduh jadwal lengkap imsakiyah dan waktu salat.
+                </p>
+            </div>
+        `;
+    } else {
+        modalBody.innerHTML = `<p style="text-align:center; margin-top:50px;">Konten ${name} sedang disiapkan...</p>`;
+    } 
+}
+
+function closeModal() {
+    modal.style.display = 'none';
+}
+
+// Fitur 1: Render Lagu Perjuangan
+function renderLagu() {
+    const playlist = [
+        { title: "Mars NWDI", durasi: "03:45" },
+        { title: "Nahdlatain", durasi: "04:20" },
+        { title: "Sholawat Nahdlatain", durasi: "05:10" }
+    ];
+
+    let html = playlist.map(lagu => `
+        <div class="list-item">
+            <div class="list-info">
+                <h4>${lagu.title}</h4>
+                <p>Durasi: ${lagu.durasi}</p>
+            </div>
+            <div class="play-btn">▶️</div>
+        </div>
+    `).join('');
+    
+    modalBody.innerHTML = html;
+}
+
+// Fitur 2: Render Teks Hizib (Contoh)
+function renderHizib() {
+    modalBody.innerHTML = `
+        <div class="hizib-content">
+            <p class="arabic-text">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</p>
+            <p class="arabic-text">اَلْحَمْدُ لِلّٰهِ رَبِّ الْعَالَمِيْنَ...</p>
+            <hr>
+            <p style="margin-top:20px; color:#555;"><i>Artinya: Dengan menyebut nama Allah yang Maha Pengasih lagi Maha Penyayang...</i></p>
+        </div>
+    `;
+}
+
+function toggleDarkMode() {
+    const body = document.documentElement;
+    const icon = document.getElementById('theme-icon');
+    
+    if (body.getAttribute('data-theme') === 'dark') {
+        body.removeAttribute('data-theme');
+        icon.innerText = '🌙';
+        localStorage.setItem('theme', 'light');
+    } else {
+        body.setAttribute('data-theme', 'dark');
+        icon.innerText = '☀️';
+        localStorage.setItem('theme', 'dark');
+    }
+}
+  
+function updateClock() {
+            const sekarang = new Date();
+
+            // 1. Format Jam (WITA)
+            const opsiJam = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+            document.getElementById('display-jam').innerText = sekarang.toLocaleTimeString('id-ID', opsiJam);
+
+            // 2. Format Masehi Indonesia
+            const opsiMasehi = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+            document.getElementById('display-masehi').innerText = sekarang.toLocaleDateString('id-ID', opsiMasehi);
+
+            // 3. Format Hijriyah Indonesia (Intl API)
+            // Menggunakan penyesuaian islamic-umalqura
+            const formatHijriyah = new Intl.DateTimeFormat('id-ID-u-ca-islamic-umalqura-nu-latn', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            }).format(sekarang);
+            
+            document.getElementById('display-hijriyah').innerText = formatHijriyah;
+        }
+
+        // Jalankan setiap detik
+        setInterval(updateClock, 1000);
+        updateClock(); // Jalankan langsung saat load
+
+// Cek saat halaman pertama kali dimuat
+window.onload = function() {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        document.getElementById('theme-icon').innerText = '☀️';
+    }
+}
+</script>
+</body>
+</html>
