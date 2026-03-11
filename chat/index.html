@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NWDI Chat - Premium Dark</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --nwdi-green: #008444;
+            --nwdi-dark-green: #006333;
+            --app-bg: #0f172a; /* Deep Dark Blue/Black */
+            --card-dark: #1e293b; /* Warna Balon Chat Dark */
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+
+        body {
+            background: linear-gradient(135deg, #020617 0%, #0f172a 100%);
+            display: flex;
+            justify-content: center;
+            height: 100vh;
+            color: var(--text-main);
+            overflow: hidden;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 480px;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(20px);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            border-left: 1px solid var(--glass-border);
+            border-right: 1px solid var(--glass-border);
+        }
+
+        /* --- Header Premium --- */
+        .app-header {
+            background: var(--nwdi-green);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 0 0 25px 25px;
+            box-shadow: 0 10px 25px rgba(0, 132, 68, 0.3);
+            z-index: 100;
+        }
+
+        .user-profile { display: flex; align-items: center; gap: 12px; }
+        
+        .app-logo {
+            width: 45px;
+            height: 45px;
+            background: white;
+            border-radius: 14px;
+            padding: 5px;
+            object-fit: contain;
+        }
+
+        .header-text h1 { font-size: 1.1rem; font-weight: 600; letter-spacing: 0.5px; }
+        .status { font-size: 0.75rem; color: #bbf7d0; display: flex; align-items: center; gap: 5px; }
+        .status::before { content: ''; width: 7px; height: 7px; background: #22c55e; border-radius: 50%; box-shadow: 0 0 8px #22c55e; }
+
+        .header-actions button {
+            background: none; border: none; color: white;
+            font-size: 1.2rem; cursor: pointer; transition: 0.3s;
+            padding: 5px;
+        }
+
+        /* --- Chat Area --- */
+        .chat-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+
+        .message { max-width: 85%; display: flex; flex-direction: column; animation: fadeIn 0.4s ease; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Balon Chat Incoming (Dark) */
+        .message.incoming { align-self: flex-start; }
+        .incoming .bubble {
+            background: var(--card-dark);
+            color: var(--text-main);
+            border-radius: 20px 20px 20px 4px;
+            border: 1px solid var(--glass-border);
+        }
+
+        /* Balon Chat Outgoing (Hijau) */
+        .message.outgoing { align-self: flex-end; }
+        .outgoing .bubble {
+            background: var(--nwdi-green);
+            color: white;
+            border-radius: 20px 20px 4px 20px;
+            box-shadow: 0 4px 15px rgba(0, 132, 68, 0.2);
+        }
+
+        .bubble { padding: 12px 18px; font-size: 0.92rem; line-height: 1.5; position: relative; }
+        .time { font-size: 0.65rem; color: var(--text-dim); margin-top: 5px; padding: 0 5px; }
+        .outgoing .time { text-align: right; }
+
+        /* --- Input Bar --- */
+        .input-area { padding: 20px; background: transparent; }
+        
+        .input-wrapper {
+            background: var(--card-dark);
+            border: 1px solid var(--glass-border);
+            padding: 8px 8px 8px 18px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        #user-input {
+            flex: 1;
+            background: none;
+            border: none;
+            color: white;
+            outline: none;
+            padding: 10px 0;
+            font-size: 0.95rem;
+        }
+
+        .action-btn {
+            background: none; border: none; color: var(--text-dim);
+            padding: 0 10px; cursor: pointer; font-size: 1.1rem;
+        }
+
+        .send-btn {
+            background: var(--nwdi-green);
+            border: none;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 4px 12px rgba(0, 132, 68, 0.3);
+        }
+
+        .send-btn:hover { background: var(--nwdi-dark-green); transform: scale(1.05); }
+        .send-btn svg { width: 20px; fill: white; }
+
+        /* Scrollbar */
+        .chat-area::-webkit-scrollbar { width: 5px; }
+        .chat-area::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 10px; }
+
+        /* Responsivitas Desktop */
+        @media (min-width: 768px) {
+            body { padding: 40px 0; }
+            .app-container { height: 85vh; border-radius: 32px; border: 1px solid var(--glass-border); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <header class="app-header">
+            <div class="user-profile">
+                <img src="https://faridjamil.github.io/nwdi/chat/logo.png" alt="NWDI Logo" class="app-logo">
+                <div class="header-text">
+                    <h1>NWDI Chat</h1>
+                    <span class="status">Online</span>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button onclick="downloadChat()"><i class="fa-solid fa-cloud-arrow-down"></i></button>
+                <button onclick="clearChat()"><i class="fa-solid fa-circle-xmark"></i></button>
+            </div>
+        </header>
+
+        <main class="chat-area" id="chat-box">
+            <div class="message incoming">
+                <div class="bubble">Assalamu'alaikum! Selamat datang di aplikasi chat resmi NWDI. Bagaimana kabar Anda hari ini?</div>
+                <span class="time">08:00</span>
+            </div>
+            </main>
+
+        <footer class="input-area">
+            <form id="chat-form" class="input-wrapper">
+                <button type="button" class="action-btn"><i class="fa-solid fa-paperclip"></i></button>
+                <input type="text" id="user-input" placeholder="Ketik pesan NWDI..." autocomplete="off">
+                <button type="submit" class="send-btn">
+                    <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path></svg>
+                </button>
+            </form>
+        </footer>
+    </div>
+
+    <script>
+        const chatBox = document.getElementById('chat-box');
+        const chatForm = document.getElementById('chat-form');
+        const userInput = document.getElementById('user-input');
+
+        // Load chat dari localStorage saat aplikasi dibuka
+        window.onload = () => {
+            const savedChat = JSON.parse(localStorage.getItem('nwdi_chats')) || [];
+            savedChat.forEach(data => appendMessage(data.text, data.type, data.time));
+            scrollToBottom();
+        };
+
+        function appendMessage(text, type, time) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            messageDiv.innerHTML = `
+                <div class="bubble">${text}</div>
+                <span class="time">${time}</span>
+            `;
+            chatBox.appendChild(messageDiv);
+        }
+
+        function scrollToBottom() {
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        chatForm.onsubmit = (e) => {
+            e.preventDefault();
+            const text = userInput.value.trim();
+            if (!text) return;
+
+            const now = new Date();
+            const timeString = now.getHours().toString().padStart(2, '0') + ':' + 
+                               now.getMinutes().toString().padStart(2, '0');
+
+            // Tambahkan pesan User (Outgoing - Hijau)
+            appendMessage(text, 'outgoing', timeString);
+            
+            // Simpan ke localStorage
+            saveToLocal(text, 'outgoing', timeString);
+
+            userInput.value = '';
+            scrollToBottom();
+
+            // Simulasi Balasan Admin (Incoming - Dark) setelah 1 detik
+            setTimeout(() => {
+                const autoReply = "Pesan Anda telah kami terima. Admin NWDI akan segera merespon.";
+                appendMessage(autoReply, 'incoming', timeString);
+                saveToLocal(autoReply, 'incoming', timeString);
+                scrollToBottom();
+            }, 1000);
+        };
+
+        function saveToLocal(text, type, time) {
+            const chats = JSON.parse(localStorage.getItem('nwdi_chats')) || [];
+            chats.push({ text, type, time });
+            localStorage.setItem('nwdi_chats', JSON.stringify(chats));
+        }
+
+        function clearChat() {
+            if(confirm("Hapus semua riwayat percakapan?")) {
+                localStorage.removeItem('nwdi_chats');
+                location.reload();
+            }
+        }
+
+        function downloadChat() {
+            const chats = JSON.parse(localStorage.getItem('nwdi_chats')) || [];
+            if (chats.length === 0) return alert("Belum ada pesan untuk diunduh.");
+            
+            let content = "RIWAYAT CHAT NWDI PREMIUM\n\n";
+            chats.forEach(c => content += `[${c.time}] ${c.type === 'outgoing' ? 'Saya' : 'Admin'}: ${c.text}\n`);
+            
+            const blob = new Blob([content], { type: "text/plain" });
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = "Riwayat_Chat_NWDI.txt";
+            a.click();
+        }
+    </script>
+</body>
+</html>
